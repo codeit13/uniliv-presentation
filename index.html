@@ -1095,6 +1095,287 @@
       font-size: 12px;
     }
 
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      flex: initial;
+    }
+
+    .tech-card,
+    .sla-card,
+    .delivery-card,
+    .commercial-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .tech-card {
+      min-height: 136px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tech-code {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      background: rgba(112, 194, 168, 0.11);
+      border: 1px solid rgba(112, 194, 168, 0.24);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .tech-title {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .tech-stack {
+      color: var(--text2);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tech-stack strong {
+      color: #d9f3ea;
+      font-weight: 700;
+    }
+
+    .tech-footnote {
+      margin-top: 14px;
+      padding: 12px 16px;
+      color: var(--text2);
+      border: 1px solid rgba(112, 194, 168, 0.22);
+      border-radius: 18px;
+      background: rgba(112, 194, 168, 0.08);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .sla-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .sla-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 280px;
+    }
+
+    .sla-card.critical { border-color: rgba(228, 139, 122, 0.34); }
+    .sla-card.high { border-color: rgba(216, 170, 94, 0.34); }
+    .sla-card.medium { border-color: rgba(143, 180, 255, 0.3); }
+    .sla-card.low { border-color: rgba(112, 194, 168, 0.28); }
+
+    .sla-priority {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .sla-code {
+      color: var(--text);
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .sla-severity {
+      color: var(--text3);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .sla-title {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .sla-desc {
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .sla-tat {
+      margin-top: auto;
+      color: #d9f3ea;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-top: 1px solid rgba(209, 232, 255, 0.12);
+      padding-top: 14px;
+    }
+
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .delivery-card,
+    .commercial-card {
+      padding: 24px;
+      min-width: 0;
+    }
+
+    .delivery-heading {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(209, 232, 255, 0.12);
+    }
+
+    .phase-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(209, 232, 255, 0.08);
+    }
+
+    .phase-row:last-child { border-bottom: none; }
+
+    .phase-day {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .phase-title {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .phase-desc {
+      color: var(--text2);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .scope-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .scope-box {
+      border: 1px solid rgba(209, 232, 255, 0.12);
+      border-radius: 18px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .scope-title {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .scope-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .scope-item {
+      color: var(--text2);
+      font-size: 12.5px;
+      line-height: 1.3;
+    }
+
+    .commercial-total {
+      color: var(--text);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .commercial-sub {
+      color: var(--text3);
+      font-size: 12px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .commercial-row {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(209, 232, 255, 0.08);
+    }
+
+    .commercial-row:last-child { border-bottom: none; }
+
+    .commercial-percent {
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .commercial-label {
+      color: var(--text2);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .beyond-note {
+      margin-top: 16px;
+      color: var(--text2);
+      font-size: 13px;
+      line-height: 1.5;
+      border: 1px solid rgba(112, 194, 168, 0.2);
+      border-radius: 16px;
+      background: rgba(112, 194, 168, 0.08);
+      padding: 13px 15px;
+    }
+
     .ai-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
@@ -1322,7 +1603,10 @@
     @media (max-width: 1100px) {
       .slide-frame { padding: 30px 36px; }
       .title-stats { grid-template-columns: repeat(2, minmax(132px, 1fr)); }
+      .tech-grid,
+      .sla-grid,
       .ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .delivery-grid,
       .wallet-grid,
       .partner-grid {
         grid-template-columns: 1fr;
@@ -1354,9 +1638,12 @@
       { id: 1,  component: 'TitleSlide' },
       { id: 2,  component: 'ScopeSlide' },
       { id: 3,  component: 'ArchSlide' },
-      { id: 4,  component: 'AISlide' },
-      { id: 5,  component: 'WalletSlide' },
-      { id: 6,  component: 'PartnerSlide' },
+      { id: 4,  component: 'TechStackSlide' },
+      { id: 5,  component: 'AISlide' },
+      { id: 6,  component: 'WalletSlide' },
+      { id: 7,  component: 'SLASlide' },
+      { id: 8,  component: 'DeliverySlide' },
+      { id: 9,  component: 'PartnerSlide' },
     ];
 
     /* ─── Slide 1: Title ─── */
@@ -1553,6 +1840,41 @@
       );
     }
 
+    /* ─── Slide 4: Technology Stack ─── */
+    function TechStackSlide() {
+      const stack = [
+        { code: 'APP', title: 'Resident Mobile App', stack: <><strong>React Native</strong> for Android/iOS + TypeScript + NestJS Backend</> },
+        { code: 'UES', title: 'UES Admin App', stack: <><strong>React</strong> + TypeScript + Electron desktop apps for Windows/Mac/Web + NestJS Backend</> },
+        { code: 'API', title: 'Backend Module', stack: <><strong>Node.js</strong> + TypeScript + NestJS</> },
+        { code: 'AI', title: 'AI Services', stack: <><strong>Python</strong> + FastAPI with YOLO, OCR, Vision and LLM models</> },
+        { code: 'DB', title: 'Database', stack: <><strong>PostgreSQL</strong> as the primary relational data store</> },
+        { code: 'JOB', title: 'Cache / Jobs', stack: <><strong>Redis</strong> + BullMQ for caching, queues and background workers</> },
+        { code: 'S3', title: 'Storage', stack: <>S3-compatible object storage for files, media and documents</> },
+        { code: 'MSG', title: 'Notifications', stack: <>FCM + Email/SMS/WhatsApp communication channels</> },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Implementation Stack</div>
+          <div className="slide-title">Technology Stack for Product Delivery</div>
+          <div className="slide-subtitle">A pragmatic, scalable stack across mobile, web, desktop, backend, AI, storage and communication layers.</div>
+          <div className="tech-grid">
+            {stack.map((item) => (
+              <div className="tech-card" key={item.title}>
+                <div className="tech-code">{item.code}</div>
+                <div>
+                  <div className="tech-title">{item.title}</div>
+                  <div className="tech-stack">{item.stack}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="tech-footnote">
+            Stack designed for cross-platform delivery, modular backend services, AI extensibility and operational reliability.
+          </div>
+        </div>
+      );
+    }
+
     /* ─── Slide 4: Agentic AI ─── */
     function AISlide() {
       const agents = [
@@ -1728,6 +2050,106 @@
       );
     }
 
+    /* ─── Slide 7: SLA ─── */
+    function SLASlide() {
+      const sla = [
+        { code: 'P0', severity: 'Critical', title: 'System Down', desc: 'Immediate action for production outage or platform-wide unavailability.', tat: 'Immediate action', tone: 'critical' },
+        { code: 'P1', severity: 'High', title: 'Core Feature Not Working', desc: 'High-impact issue affecting core business workflows or major user journeys.', tat: '1 day TAT', tone: 'high' },
+        { code: 'P2', severity: 'Medium', title: 'Non-Critical Module Impacted', desc: 'Medium-impact issues affecting non-critical modules or selected UES workflows.', tat: '3 day TAT', tone: 'medium' },
+        { code: 'P3', severity: 'Low', title: 'UI / Cosmetic Bugs', desc: 'Low-risk UI, formatting, cosmetic or minor usability issues without operational blockage.', tat: '7 day TAT', tone: 'low' },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Support Model</div>
+          <div className="slide-title">SLA Framework and Response Priority</div>
+          <div className="slide-subtitle">A clear severity model for production support, issue triage and stakeholder communication.</div>
+          <div className="sla-grid">
+            {sla.map((item) => (
+              <div key={item.code} className={`sla-card ${item.tone}`}>
+                <div className="sla-priority">
+                  <div className="sla-code">{item.code}</div>
+                  <div className="sla-severity">{item.severity}</div>
+                </div>
+                <div>
+                  <div className="sla-title">{item.title}</div>
+                  <div className="sla-desc">{item.desc}</div>
+                </div>
+                <div className="sla-tat">{item.tat}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 8: Delivery & Commercials ─── */
+    function DeliverySlide() {
+      const phaseOne = [
+        { day: 'Day 30', title: 'UAT Drop 1', desc: 'First structured UAT release for validation and feedback.' },
+        { day: 'Day 45', title: 'UAT Drop 2', desc: 'Second UAT release covering feedback closures and readiness updates.' },
+        { day: 'Day 60', title: 'CUG / Go-Live', desc: 'Closed user group launch and Phase 1 go-live readiness.' },
+      ];
+      const resident = ['Pre Onboarding', 'Post Onboarding', 'Wallet', 'Community', 'Complaints', 'Dues Management', 'Exit Management'];
+      const ues = ['Operations', 'Kitchen Ops', 'Wallet Management'];
+      const commercials = [
+        { percent: '15%', label: 'Project Kick-off' },
+        { percent: '15%', label: 'UAT 1 sign-off' },
+        { percent: '10%', label: 'UAT 2 sign-off' },
+        { percent: '20%', label: 'Phase 1 go-live' },
+        { percent: '20%', label: 'Phase 2 go-live' },
+        { percent: '20%', label: 'Final phase go-live' },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Delivery Governance</div>
+          <div className="slide-title">Delivery Plan and Commercial Milestones</div>
+          <div className="slide-subtitle">Phase 1 targets a 2-month go-live, followed by prioritised Phase 2+ delivery over the broader 4-6 month roadmap.</div>
+          <div className="delivery-grid">
+            <div className="delivery-card">
+              <div className="delivery-heading">Phase 1: 2-Month Go-Live Plan</div>
+              {phaseOne.map((phase) => (
+                <div className="phase-row" key={phase.day}>
+                  <div className="phase-day">{phase.day}</div>
+                  <div>
+                    <div className="phase-title">{phase.title}</div>
+                    <div className="phase-desc">{phase.desc}</div>
+                  </div>
+                </div>
+              ))}
+              <div className="scope-columns">
+                <div className="scope-box">
+                  <div className="scope-title">Resident Scope</div>
+                  <div className="scope-list">
+                    {resident.map((item) => <div className="scope-item" key={item}>{item}</div>)}
+                  </div>
+                </div>
+                <div className="scope-box">
+                  <div className="scope-title">UES Scope</div>
+                  <div className="scope-list">
+                    {ues.map((item) => <div className="scope-item" key={item}>{item}</div>)}
+                  </div>
+                </div>
+              </div>
+              <div className="beyond-note">
+                <strong>P2 and beyond:</strong> Feature prioritisation basis discussion, with overall delivery planned across 4-6 months.
+              </div>
+            </div>
+            <div className="commercial-card">
+              <div className="delivery-heading">Commercials</div>
+              <div className="commercial-total">21 Lakh + GST</div>
+              <div className="commercial-sub">Total Project Commercials</div>
+              {commercials.map((item) => (
+                <div className="commercial-row" key={item.label}>
+                  <div className="commercial-percent">{item.percent}</div>
+                  <div className="commercial-label">{item.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     /* ─── Slide 6: Partnership ─── */
     function PartnerSlide() {
       const uniliv = [
@@ -1818,7 +2240,17 @@
       );
     }
 
-    const COMPONENTS = { TitleSlide, ScopeSlide, ArchSlide, AISlide, WalletSlide, PartnerSlide };
+    const COMPONENTS = {
+      TitleSlide,
+      ScopeSlide,
+      ArchSlide,
+      TechStackSlide,
+      AISlide,
+      WalletSlide,
+      SLASlide,
+      DeliverySlide,
+      PartnerSlide
+    };
 
     /* ─── App ─── */
     function App() {
@@ -1854,7 +2286,15 @@
 
       const progress = ((current + 1) / total) * 100;
       const SlideNames = [
-        'Title', 'Scope', 'Architecture', 'Agentic AI', 'Digital Wallet', 'Partnership'
+        'Title',
+        'Scope',
+        'Architecture',
+        'Tech Stack',
+        'Agentic AI',
+        'Digital Wallet',
+        'SLA',
+        'Delivery',
+        'Partnership'
       ];
 
       return (
