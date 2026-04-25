@@ -2826,9 +2826,9 @@
       const [current, setCurrent] = useState(0);
       const [theme, setTheme] = useState(() => {
         try {
-          return localStorage.getItem('uniliv-presentation-theme') || 'dark';
+          return localStorage.getItem('uniliv-presentation-theme') || 'light';
         } catch {
-          return 'dark';
+          return 'light';
         }
       });
       const total = SLIDES.length;
