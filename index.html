@@ -988,6 +988,31 @@
       margin-bottom: 24px;
     }
 
+    .ues-accent {
+      color: var(--cyan);
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .ues-star {
+      position: relative;
+      top: -0.55em;
+      font-size: 0.52em;
+      margin-left: 1px;
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .title-note {
+      margin-top: -6px;
+      margin-bottom: 16px;
+      color: var(--text3);
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      max-width: 780px;
+    }
+
     .title-pills {
       gap: 10px;
       margin-bottom: 34px;
@@ -1883,6 +1908,12 @@
         margin-bottom: 18px;
       }
 
+      .title-note {
+        margin-top: -8px;
+        margin-bottom: 14px;
+        font-size: 11px;
+      }
+
       .title-pills {
         gap: 8px;
         margin-bottom: 18px;
@@ -2237,8 +2268,9 @@
           </div>
           <img className="title-brand" src="images/uniliv-large-logo.svg" alt="Uniliv logo" />
           <div className="title-tagline">
-            Uniliv Platform<br />for Residents and Employees
+            Uniliv Platform<br />for Residents and Employees <span className="ues-accent">(UES)<span className="ues-star">*</span></span>
           </div>
+          <div className="title-note">* UES: Uniliv Enterprise System</div>
           <div className="title-pills">
             {['Microservices', 'Cloud-Native', 'AI-Powered', 'Resident-First'].map(p => (
               <span key={p} className="title-pill">{p}</span>
@@ -2430,7 +2462,7 @@
         { code: 'DB', title: 'Database', stack: <><strong>PostgreSQL</strong> as the primary relational data store</> },
         { code: 'JOB', title: 'Cache / Jobs', stack: <><strong>Redis</strong> + BullMQ for caching, queues and background workers</> },
         { code: 'S3', title: 'Storage', stack: <>S3-compatible object storage for files, media and documents</> },
-        { code: 'MSG', title: 'Notifications', stack: <><strong>FCM</strong> & <strong>APN</strong> for Android/ iOS push Notifications, plus Email/SMS/WhatsApp communication channels</> },
+        { code: 'MSG', title: 'Notifications', stack: <><strong>FCM</strong> & <strong>APN</strong> for Android/ iOS push Notifications, Email/SMS/WhatsApp communication channels</> },
       ];
       return (
         <div style={{display:'flex', flexDirection:'column', flex:1}}>
