@@ -3,7 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UNILIV — Unified Digital Management Platform</title>
+  <title>UNILIV</title>
+  <meta name="description" content="Uniliv Platform: Resident-First, Data-Driven Digital Platform. Delivered by Enaacreations. For Residents and Employees." />
+  <meta name="theme-color" content="#0C1220" />
+
+  <!-- Open Graph for WhatsApp & Social Sharing -->
+  <meta property="og:title" content="UNILIV Platform" />
+  <meta property="og:site_name" content="Uniliv" />
+  <meta property="og:description" content="A Data-Driven, Resident-First Digital Platform for Residents and Employees, delivered by Enaacreations." />
+  <meta property="og:image" content="https://uniliv-brief.enaacreations.com/images/uniliv-large-logo.png" />
+  <meta property="og:image:alt" content="Uniliv logo and platform preview" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://uniliv-brief.enaacreations.com" />
+
+  <!-- WhatsApp/Sharing friendly icons -->
+  <link rel="icon" type="image/png" href="images/uniliv-square-logo.png" />
+
+  <!-- Twitter Card for WhatsApp fallback (some clients use it) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="UNILIV Platform" />
+  <meta name="twitter:description" content="A Data-Driven, Resident-First Digital Platform for Residents and Employees, delivered by Enaacreations." />
+  <meta name="twitter:image" content="https://yourdomain.com/images/uniliv-social-preview.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
@@ -379,7 +400,6 @@
       text-align: center;
       line-height: 1.4;
     }
-    .item-body {}
     .item-title {
       font-size: 13px;
       font-weight: 600;
@@ -588,7 +608,6 @@
       text-align: center;
       margin-top: 1px;
     }
-    .benefit-body {}
     .benefit-title { font-size: 12px; font-weight: 600; color: var(--text); }
     .benefit-desc { font-size: 11px; color: var(--text2); line-height: 1.4; margin-top: 1px; }
 
@@ -706,6 +725,28 @@
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
     }
 
+    .shell[data-theme="light"] {
+      --bg: #f6f1e8;
+      --bg2: #ffffff;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-strong: rgba(255, 255, 255, 0.95);
+      --card: rgba(255, 255, 255, 0.86);
+      --card2: rgba(255, 255, 255, 0.82);
+      --border: rgba(18, 38, 63, 0.13);
+      --border-strong: rgba(65, 139, 115, 0.34);
+      --cyan: #2f8f72;
+      --cyan-dim: rgba(47, 143, 114, 0.12);
+      --cyan-glow: rgba(47, 143, 114, 0.2);
+      --purple: #5d70b7;
+      --green: #2f8f72;
+      --amber: #9b6a1d;
+      --danger: #b85d4d;
+      --text: #102033;
+      --text2: #3c4b5d;
+      --text3: #6d7988;
+      --shadow: 0 20px 56px rgba(39, 53, 74, 0.13);
+    }
+
     html, body {
       background:
         radial-gradient(circle at 8% 8%, rgba(112, 194, 168, 0.2), transparent 28%),
@@ -724,6 +765,16 @@
       background-size: 42px 42px, 42px 42px, auto, auto, auto;
     }
 
+    .shell[data-theme="light"] {
+      background:
+        linear-gradient(rgba(20, 38, 58, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 38, 58, 0.045) 1px, transparent 1px),
+        radial-gradient(circle at 8% 0%, rgba(47, 143, 114, 0.16), transparent 34%),
+        radial-gradient(circle at 86% 12%, rgba(93, 112, 183, 0.12), transparent 32%),
+        linear-gradient(135deg, #fbf8f1 0%, #f3f7f1 48%, #edf3f8 100%);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    }
+
     .progress-bar { height: 4px; background: rgba(255, 255, 255, 0.06); }
     .progress-fill { background: linear-gradient(90deg, var(--cyan), #e5c07b, var(--purple)); }
 
@@ -732,6 +783,12 @@
       background: rgba(7, 17, 31, 0.78);
       border-color: rgba(209, 232, 255, 0.12);
       backdrop-filter: blur(18px);
+    }
+
+    .shell[data-theme="light"] .topbar,
+    .shell[data-theme="light"] .nav-bar {
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(18, 38, 63, 0.11);
     }
 
     .topbar {
@@ -764,6 +821,29 @@
       color: var(--text3);
     }
 
+    .topbar-meta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-width: 0;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-deck-title {
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .topbar-meta-divider {
+      color: var(--text3);
+      opacity: 0.75;
+    }
+
     .icon-btn,
     .nav-btn,
     .kbd {
@@ -784,6 +864,20 @@
     .nav-btn.primary {
       background: linear-gradient(135deg, rgba(112, 194, 168, 0.22), rgba(143, 180, 255, 0.16));
       border-color: var(--border-strong);
+    }
+
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .theme-toggle svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
     }
 
     .dot {
@@ -934,6 +1028,22 @@
       box-shadow: var(--shadow);
     }
 
+    .shell[data-theme="light"] .stat-card,
+    .shell[data-theme="light"] .col-panel,
+    .shell[data-theme="light"] .arch-layer,
+    .shell[data-theme="light"] .ai-card,
+    .shell[data-theme="light"] .wallet-left,
+    .shell[data-theme="light"] .benefit-panel,
+    .shell[data-theme="light"] .partner-panel,
+    .shell[data-theme="light"] .together-card,
+    .shell[data-theme="light"] .tech-card,
+    .shell[data-theme="light"] .sla-card,
+    .shell[data-theme="light"] .delivery-card,
+    .shell[data-theme="light"] .commercial-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.74));
+      border-color: var(--border);
+    }
+
     .stat-card {
       padding: 18px;
       min-width: 0;
@@ -1050,7 +1160,9 @@
       background: rgba(112, 194, 168, 0.11);
       border-color: rgba(112, 194, 168, 0.24);
       border-radius: 16px;
-      min-width: 126px;
+      width: 168px;
+      min-width: 168px;
+      flex: 0 0 168px;
       padding: 10px 12px;
     }
 
@@ -1086,6 +1198,12 @@
       color: #d9f3ea;
     }
 
+    .shell[data-theme="light"] .arch-tag.accent,
+    .shell[data-theme="light"] .tech-stack strong,
+    .shell[data-theme="light"] .sla-tat {
+      color: #176c55;
+    }
+
     .arch-footer {
       background: rgba(112, 194, 168, 0.09);
       border-color: rgba(112, 194, 168, 0.23);
@@ -1110,6 +1228,18 @@
       border: 1px solid var(--border);
       border-radius: 24px;
       box-shadow: var(--shadow);
+    }
+
+    .shell[data-theme="light"] .title-pill,
+    .shell[data-theme="light"] .arch-tag,
+    .shell[data-theme="light"] .icon-btn,
+    .shell[data-theme="light"] .nav-btn,
+    .shell[data-theme="light"] .kbd,
+    .shell[data-theme="light"] .partner-brand-chip,
+    .shell[data-theme="light"] .sla-severity {
+      background: rgba(255, 255, 255, 0.68);
+      border-color: rgba(18, 38, 63, 0.12);
+      color: var(--text2);
     }
 
     .tech-card {
@@ -1303,6 +1433,13 @@
       border-radius: 18px;
       padding: 15px;
       background: rgba(255, 255, 255, 0.045);
+    }
+
+    .shell[data-theme="light"] .scope-box,
+    .shell[data-theme="light"] .wallet-emblem,
+    .shell[data-theme="light"] .deal-node {
+      background: rgba(255, 255, 255, 0.74);
+      border-color: rgba(18, 38, 63, 0.12);
     }
 
     .scope-title {
@@ -1625,6 +1762,438 @@
         width: 132px;
       }
     }
+
+    @media (max-width: 700px) {
+      .shell {
+        background-size: 30px 30px, 30px 30px, auto, auto, auto;
+      }
+
+      .topbar {
+        padding: 10px 14px;
+        gap: 10px;
+      }
+
+      .topbar-logo {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        gap: 8px;
+      }
+
+      .topbar-logo-mark {
+        width: 22px;
+        height: 22px;
+      }
+
+      .topbar-meta {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        gap: 6px;
+      }
+
+      .topbar-deck-title,
+      .topbar-meta-divider {
+        display: none;
+      }
+
+      .topbar-actions {
+        gap: 6px;
+      }
+
+      .kbd-hint {
+        display: none;
+      }
+
+      .icon-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      .theme-toggle {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        padding: 0;
+      }
+
+      .slide-frame {
+        padding: 24px 18px 30px;
+        scroll-padding-bottom: 92px;
+      }
+
+      .slide-label {
+        max-width: 100%;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        padding: 6px 10px;
+        margin-bottom: 10px;
+        white-space: normal;
+      }
+
+      .slide-title {
+        font-size: clamp(30px, 11vw, 42px);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 10px;
+      }
+
+      .slide-subtitle {
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 18px;
+      }
+
+      .title-slide {
+        justify-content: flex-start;
+        padding-top: 10px;
+      }
+
+      .title-bg-glow,
+      .title-bg-glow2 {
+        opacity: 0.65;
+      }
+
+      .title-tag {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        line-height: 1.4;
+        padding: 7px 11px;
+        margin-bottom: 24px;
+        white-space: normal;
+      }
+
+      .title-brand {
+        width: min(78vw, 330px);
+        margin-bottom: 18px;
+      }
+
+      .title-tagline {
+        font-size: clamp(24px, 8vw, 32px);
+        line-height: 1.12;
+        margin-bottom: 18px;
+      }
+
+      .title-pills {
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .title-pill {
+        padding: 6px 11px;
+        font-size: 11px;
+      }
+
+      .title-stats,
+      .two-col,
+      .tech-grid,
+      .sla-grid,
+      .ai-grid,
+      .wallet-grid,
+      .delivery-grid,
+      .scope-columns,
+      .partner-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .title-stats {
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .stat-card {
+        padding: 15px;
+        border-radius: 18px;
+      }
+
+      .stat-num {
+        font-size: 32px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+      .title-footer {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .col-panel,
+      .benefit-panel,
+      .partner-panel,
+      .delivery-card,
+      .commercial-card {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .panel-header,
+      .benefit-header,
+      .partner-header,
+      .delivery-heading {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+      }
+
+      .item-row,
+      .benefit-row,
+      .partner-item {
+        gap: 11px;
+      }
+
+      .item-row {
+        padding: 12px 0;
+      }
+
+      .item-icon,
+      .ai-card-icon,
+      .benefit-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 11px;
+        font-size: 10px;
+      }
+
+      .item-title,
+      .ai-card-title,
+      .benefit-title {
+        font-size: 14px;
+      }
+
+      .item-desc,
+      .benefit-desc,
+      .partner-text,
+      .ai-step {
+        font-size: 12px;
+        line-height: 1.48;
+      }
+
+      .arch-slide {
+        gap: 11px;
+      }
+
+      .arch-layer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px;
+        border-radius: 20px;
+      }
+
+      .layer-badge {
+        width: 100%;
+        min-width: 0;
+        flex: 0 0 auto;
+        text-align: left;
+      }
+
+      .layer-name {
+        white-space: normal !important;
+      }
+
+      .tag-row {
+        gap: 7px;
+      }
+
+      .arch-tag {
+        font-size: 10.5px;
+        padding: 6px 9px;
+      }
+
+      .arch-footer,
+      .tech-footnote,
+      .beyond-note,
+      .together-card {
+        font-size: 12px;
+        line-height: 1.45;
+        padding: 12px 14px;
+      }
+
+      .tech-grid {
+        gap: 12px;
+      }
+
+      .tech-card {
+        min-height: auto;
+        padding: 16px;
+        gap: 14px;
+      }
+
+      .tech-code {
+        width: 34px;
+        height: 34px;
+      }
+
+      .ai-grid {
+        gap: 12px;
+      }
+
+      .ai-card {
+        min-height: auto;
+        padding: 17px;
+        border-radius: 22px;
+      }
+
+      .wallet-left {
+        min-height: auto;
+      }
+
+      .wallet-emblem {
+        width: 44px;
+        height: 44px;
+        border-radius: 15px;
+      }
+
+      .wallet-items {
+        gap: 9px;
+      }
+
+      .wallet-item {
+        font-size: 12px;
+      }
+
+      .sla-grid {
+        gap: 12px;
+      }
+
+      .sla-card {
+        min-height: auto;
+        padding: 18px;
+        gap: 13px;
+        border-radius: 22px;
+      }
+
+      .sla-code {
+        font-size: 30px;
+      }
+
+      .sla-title {
+        font-size: 16px;
+      }
+
+      .sla-desc {
+        font-size: 12.5px;
+        line-height: 1.48;
+      }
+
+      .sla-tat {
+        font-size: 11px;
+        padding-top: 11px;
+      }
+
+      .phase-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 11px 0;
+      }
+
+      .phase-day {
+        font-size: 11px;
+      }
+
+      .scope-columns {
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .scope-box {
+        padding: 13px;
+      }
+
+      .commercial-total {
+        font-size: 26px;
+      }
+
+      .commercial-row {
+        grid-template-columns: 48px 1fr;
+        padding: 9px 0;
+      }
+
+      .partner-brand {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .partner-logo {
+        width: 145px;
+      }
+
+      .deal-node {
+        width: 136px;
+        min-height: 146px;
+        margin: 0 auto;
+      }
+
+      .deal-icon {
+        width: 94px;
+        height: 74px;
+      }
+
+      .nav-bar {
+        gap: 10px;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      }
+
+      .nav-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .dot-nav {
+        gap: 5px;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+      }
+
+      .dot.active {
+        width: 20px;
+      }
+
+      .slide-counter {
+        min-width: 36px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .slide-frame {
+        padding: 20px 14px 28px;
+      }
+
+      .slide-title {
+        font-size: clamp(28px, 10vw, 36px);
+      }
+
+      .title-brand {
+        width: min(84vw, 300px);
+      }
+
+      .title-tagline {
+        font-size: clamp(22px, 7.5vw, 28px);
+      }
+
+      .nav-bar {
+        justify-content: space-between;
+      }
+
+      .dot-nav {
+        max-width: 86px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        padding: 8px 10px;
+      }
+
+      .slide-counter {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1653,11 +2222,11 @@
           <div className="title-bg-glow" />
           <div className="title-bg-glow2" />
           <div className="title-tag">
-            <span>Client Brief</span> Confidential — Prepared by Enacreations | 2026
+            <span>Brief Deck</span> — Prepared by Enaacreations | 2026
           </div>
           <img className="title-brand" src="images/uniliv-large-logo.svg" alt="Uniliv logo" />
           <div className="title-tagline">
-            Unified Digital Management Platform<br />for Residents and Employees
+            Uniliv Platform<br />for Residents and Employees
           </div>
           <div className="title-pills">
             {['Microservices', 'Cloud-Native', 'AI-Powered', 'Resident-First'].map(p => (
@@ -1680,7 +2249,7 @@
           </div>
 
           <div className="title-footer">
-            A collaboration between Uniliv's deep domain expertise and Enacreations' cutting-edge technology
+            A collaboration between Uniliv's deep domain expertise and Enaacreations' cutting-edge technology
             to deliver a Data-Driven, Resident-First Digital Platform.
           </div>
         </div>
@@ -2173,7 +2742,7 @@
       return (
         <div style={{display:'flex', flexDirection:'column', flex:1}}>
           <div className="slide-label">Collaboration</div>
-          <div className="slide-title">Partnership Model — Uniliv + Enacreations</div>
+          <div className="slide-title">Partnership Model — Uniliv + Enaacreations</div>
           <div className="slide-subtitle">Domain × Tech = Category Leader</div>
           <div className="partner-grid" style={{flex:1}}>
             <div className="partner-panel left">
@@ -2217,11 +2786,11 @@
             <div className="partner-panel right">
               <div className="partner-brand">
                 <div className="partner-logo" style={{display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, letterSpacing:'0.14em', fontSize:'14px', color:'var(--text)'}}>
-                  ENACREATIONS
+                  ENAACREATIONS
                 </div>
                 <span className="partner-brand-chip">Technology Partner</span>
               </div>
-              <div className="partner-header right">Enacreations Delivers</div>
+              <div className="partner-header right">Enaacreations Delivers</div>
               <div className="partner-items">
                 {enac.map((item, i) => (
                   <div key={i} className="partner-item">
@@ -2255,10 +2824,20 @@
     /* ─── App ─── */
     function App() {
       const [current, setCurrent] = useState(0);
+      const [theme, setTheme] = useState(() => {
+        try {
+          return localStorage.getItem('uniliv-presentation-theme') || 'dark';
+        } catch {
+          return 'dark';
+        }
+      });
       const total = SLIDES.length;
 
       const prev = useCallback(() => setCurrent(c => Math.max(0, c - 1)), []);
       const next = useCallback(() => setCurrent(c => Math.min(total - 1, c + 1)), [total]);
+      const toggleTheme = useCallback(() => {
+        setTheme(currentTheme => currentTheme === 'dark' ? 'light' : 'dark');
+      }, []);
 
       const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -2269,6 +2848,13 @@
       };
 
       useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+        try {
+          localStorage.setItem('uniliv-presentation-theme', theme);
+        } catch {}
+      }, [theme]);
+
+      useEffect(() => {
         const handler = (e) => {
           if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
             e.preventDefault(); next();
@@ -2277,16 +2863,17 @@
             e.preventDefault(); prev();
           }
           if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+          if (e.key === 't' || e.key === 'T') toggleTheme();
           if (e.key === 'Home') setCurrent(0);
           if (e.key === 'End')  setCurrent(total - 1);
         };
         window.addEventListener('keydown', handler);
         return () => window.removeEventListener('keydown', handler);
-      }, [prev, next, total]);
+      }, [prev, next, total, toggleTheme]);
 
       const progress = ((current + 1) / total) * 100;
       const SlideNames = [
-        'Title',
+        'Home',
         'Scope',
         'Architecture',
         'Tech Stack',
@@ -2298,7 +2885,7 @@
       ];
 
       return (
-        <div className="shell">
+        <div className="shell" data-theme={theme}>
           {/* Progress bar */}
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }} />
@@ -2310,14 +2897,28 @@
               <img className="topbar-logo-mark" src="images/uniliv-square-logo.png" alt="Uniliv mark" />
               <span>UNILIV</span>
             </div>
-            <div className="topbar-meta">{SlideNames[current]}</div>
+            <div className="topbar-meta">
+              <span className="topbar-deck-title">Uniliv</span>
+              <span className="topbar-meta-divider">/</span>
+              <span>{SlideNames[current]}</span>
+            </div>
             <div className="topbar-actions">
-              <div className="kbd-hint">
-                <span className="kbd">←→</span> navigate &nbsp;
-                <span className="kbd">F</span> fullscreen
-              </div>
-              <button className="icon-btn" onClick={toggleFullscreen} title="Toggle Fullscreen">
-                Fullscreen
+              <button
+                className="icon-btn theme-toggle"
+                onClick={toggleTheme}
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4.5" strokeWidth="2" />
+                    <path d="M12 2.5v2.2M12 19.3v2.2M4.7 4.7l1.6 1.6M17.7 17.7l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.7 19.3l1.6-1.6M17.7 6.3l1.6-1.6" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M20.2 15.2A8.2 8.2 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z" strokeWidth="2" strokeLinejoin="round" />
+                  </svg>
+                )}
               </button>
             </div>
           </div>
