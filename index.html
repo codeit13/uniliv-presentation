@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNILIV — Unified Digital Management Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0C1220;
+      --bg2:       #111827;
+      --card:      #1A2540;
+      --card2:     #162035;
+      --border:    rgba(255,255,255,0.08);
+      --cyan:      #22D3EE;
+      --cyan-dim:  rgba(34,211,238,0.12);
+      --cyan-glow: rgba(34,211,238,0.25);
+      --purple:    #818CF8;
+      --green:     #34D399;
+      --amber:     #FBBF24;
+      --text:      #F1F5F9;
+      --text2:     #94A3B8;
+      --text3:     #64748B;
+      --radius:    12px;
+      --radius-lg: 18px;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #root { height: 100%; }
+
+    /* ── Presentation Shell ── */
+    .shell {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 28px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: rgba(12,18,32,0.9);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    .topbar-logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+    .topbar-meta {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+    }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .icon-btn:hover { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+
+    /* Slide viewport */
+    .slide-viewport {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .slide-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    }
+    .slide-frame {
+      min-width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 32px 56px;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--card) transparent;
+    }
+    .slide-frame::-webkit-scrollbar { width: 4px; }
+    .slide-frame::-webkit-scrollbar-thumb { background: var(--card); border-radius: 4px; }
+
+    /* Bottom nav */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 14px 28px;
+      border-top: 1px solid var(--border);
+      background: rgba(12,18,32,0.9);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 7px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .nav-btn:hover:not(:disabled) {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: var(--cyan-dim);
+      transform: translateY(-1px);
+    }
+    .nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .nav-btn.primary {
+      background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(129,140,248,0.15));
+      border-color: rgba(34,211,238,0.3);
+      color: var(--text);
+    }
+    .nav-btn.primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(34,211,238,0.25), rgba(129,140,248,0.25));
+    }
+
+    .dot-nav { display: flex; gap: 7px; align-items: center; }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text3);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dot.active {
+      width: 22px;
+      border-radius: 3px;
+      background: var(--cyan);
+    }
+    .dot:hover:not(.active) { background: var(--text2); }
+
+    .slide-counter {
+      font-size: 12px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    /* ════════════════════════════════
+       SLIDE COMPONENTS
+    ════════════════════════════════ */
+
+    /* Slide section label */
+    .slide-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .slide-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan-dim), transparent);
+    }
+
+    /* Slide title */
+    .slide-title {
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .slide-subtitle {
+      font-size: 14px;
+      color: var(--text3);
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+
+    /* ── Slide 1: Title ── */
+    .title-slide {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: visible;
+    }
+    .title-bg-glow {
+      position: absolute;
+      top: -220px; left: -220px;
+      width: 820px; height: 820px;
+      background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .title-bg-glow2 {
+      position: absolute;
+      bottom: -180px; right: -180px;
+      width: 640px; height: 640px;
+      background: radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .title-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(34,211,238,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .title-main {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      background: linear-gradient(135deg, #fff 20%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .title-tagline {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 300;
+      color: var(--text2);
+      line-height: 1.4;
+      margin-bottom: 10px;
+      max-width: 560px;
+    }
+    .title-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 40px;
+    }
+    .title-pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .title-stats {
+      display: flex; gap: 20px; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      min-width: 130px;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: var(--cyan-dim); }
+    .stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--cyan);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .title-footer {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* ── Scope Slide ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+    .col-panel {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .panel-header {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-header.challenge { color: #F87171; }
+    .panel-header.building  { color: var(--cyan); }
+
+    .item-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .item-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .item-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      width: 28px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .item-body {}
+    .item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .item-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ── Architecture Slide ── */
+    .arch-slide { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .arch-layer {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .arch-layer:hover { border-color: rgba(34,211,238,0.2); }
+    .layer-badge {
+      background: var(--cyan-dim);
+      border: 1px solid rgba(34,211,238,0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      flex-shrink: 0;
+      text-align: center;
+      min-width: 78px;
+    }
+    .layer-num {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+    .layer-name {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .layer-content { flex: 1; }
+    .layer-heading {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .arch-tag {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--text2);
+      white-space: nowrap;
+    }
+    .arch-tag.accent { background: var(--cyan-dim); border-color: rgba(34,211,238,0.25); color: var(--cyan); }
+    .arch-tag.purple { background: rgba(129,140,248,0.12); border-color: rgba(129,140,248,0.25); color: var(--purple); }
+    .arch-footer {
+      background: rgba(34,211,238,0.06);
+      border: 1px solid rgba(34,211,238,0.15);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-size: 11px;
+      color: var(--text2);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── AI Slide ── */
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      flex: 1;
+    }
+    .ai-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .ai-card:hover { border-color: rgba(34,211,238,0.3); transform: translateY(-2px); }
+    .ai-card-icon { font-size: 26px; line-height: 1; }
+    .ai-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .ai-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ai-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+    .ai-arrow {
+      color: var(--cyan);
+      font-size: 10px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Wallet Slide ── */
+    .wallet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1.4fr;
+      gap: 20px;
+      flex: 1;
+    }
+    .wallet-left {
+      background: linear-gradient(160deg, #1A2540 0%, #111827 100%);
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+    .wallet-emblem {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+    .wallet-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+    .wallet-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 18px;
+    }
+    .wallet-items { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .wallet-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .wallet-item .check {
+      width: 16px; height: 16px;
+      background: rgba(52,211,153,0.15);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .benefit-panel {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .benefit-header {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .benefit-header.biz { color: var(--amber); }
+    .benefit-header.res { color: var(--cyan); }
+    .benefit-list { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .benefit-row {
+      display: flex; gap: 10px;
+      align-items: flex-start;
+    }
+    .benefit-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      width: 24px;
+      text-align: center;
+      margin-top: 1px;
+    }
+    .benefit-body {}
+    .benefit-title { font-size: 12px; font-weight: 600; color: var(--text); }
+    .benefit-desc { font-size: 11px; color: var(--text2); line-height: 1.4; margin-top: 1px; }
+
+    /* ── Partnership Slide ── */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      flex: 1;
+      align-items: start;
+    }
+    .partner-panel {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      min-width: 0;
+    }
+    .partner-panel.left { border-color: rgba(34,211,238,0.2); }
+    .partner-panel.right { border-color: rgba(129,140,248,0.2); }
+    .partner-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .partner-header.left { color: var(--cyan); }
+    .partner-header.right { color: var(--purple); }
+    .partner-items { display: flex; flex-direction: column; gap: 10px; }
+    .partner-item {
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .partner-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .partner-dot.cyan { background: var(--cyan); }
+    .partner-dot.purple { background: var(--purple); }
+    .partner-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+    .times-sign {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding-top: 60px;
+    }
+    .together-card {
+      margin-top: 20px;
+      background: linear-gradient(135deg, rgba(34,211,238,0.08), rgba(129,140,248,0.08));
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .together-card strong { color: var(--cyan); }
+
+    /* Keyboard hint */
+    .kbd-hint {
+      font-size: 10px;
+      color: var(--text3);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .kbd {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .two-col { grid-template-columns: 1fr; }
+      .ai-grid  { grid-template-columns: 1fr 1fr; }
+      .wallet-grid { grid-template-columns: 1fr; }
+      .partner-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ════════════════════════════════
+       CLIENT-READY VISUAL SYSTEM
+    ════════════════════════════════ */
+
+    :root {
+      --bg: #07111f;
+      --bg2: #0b1727;
+      --surface: rgba(255, 255, 255, 0.075);
+      --surface-strong: rgba(255, 255, 255, 0.105);
+      --card: rgba(255, 255, 255, 0.078);
+      --card2: rgba(255, 255, 255, 0.068);
+      --border: rgba(209, 232, 255, 0.14);
+      --border-strong: rgba(112, 194, 168, 0.35);
+      --cyan: #70c2a8;
+      --cyan-dim: rgba(112, 194, 168, 0.12);
+      --cyan-glow: rgba(112, 194, 168, 0.26);
+      --purple: #8fb4ff;
+      --green: #70c2a8;
+      --amber: #d8aa5e;
+      --danger: #e48b7a;
+      --text: #f7fbff;
+      --text2: #c4d1df;
+      --text3: #8292a5;
+      --radius: 18px;
+      --radius-lg: 26px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    html, body {
+      background:
+        radial-gradient(circle at 8% 8%, rgba(112, 194, 168, 0.2), transparent 28%),
+        radial-gradient(circle at 92% 0%, rgba(143, 180, 255, 0.14), transparent 28%),
+        linear-gradient(135deg, #07111f 0%, #0a1626 48%, #101827 100%);
+      font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .shell {
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        radial-gradient(circle at 10% 0%, rgba(112, 194, 168, 0.18), transparent 32%),
+        radial-gradient(circle at 82% 12%, rgba(143, 180, 255, 0.12), transparent 30%),
+        var(--bg);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    }
+
+    .progress-bar { height: 4px; background: rgba(255, 255, 255, 0.06); }
+    .progress-fill { background: linear-gradient(90deg, var(--cyan), #e5c07b, var(--purple)); }
+
+    .topbar,
+    .nav-bar {
+      background: rgba(7, 17, 31, 0.78);
+      border-color: rgba(209, 232, 255, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      padding: 13px 42px;
+    }
+
+    .topbar-logo {
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-logo-mark {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px;
+      box-shadow: 0 0 0 1px rgba(209, 232, 255, 0.16), 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .topbar-meta,
+    .slide-counter,
+    .kbd-hint {
+      color: var(--text3);
+    }
+
+    .icon-btn,
+    .nav-btn,
+    .kbd {
+      background: rgba(255, 255, 255, 0.055);
+      border-color: var(--border);
+      color: var(--text2);
+      border-radius: 999px;
+    }
+
+    .icon-btn:hover,
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(112, 194, 168, 0.12);
+      border-color: var(--border-strong);
+      color: var(--text);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, rgba(112, 194, 168, 0.22), rgba(143, 180, 255, 0.16));
+      border-color: var(--border-strong);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: rgba(196, 209, 223, 0.35);
+    }
+
+    .dot.active {
+      width: 30px;
+      height: 7px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+    }
+
+    .slide-frame {
+      padding: clamp(24px, 3.4vw, 46px) clamp(42px, 6vw, 86px);
+    }
+
+    .slide-label {
+      width: fit-content;
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      margin-bottom: 12px;
+      padding: 7px 12px;
+      border: 1px solid rgba(112, 194, 168, 0.22);
+      border-radius: 999px;
+      background: rgba(112, 194, 168, 0.08);
+    }
+
+    .slide-label::after { display: none; }
+
+    .slide-title {
+      max-width: 980px;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(32px, 3.6vw, 50px);
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      margin-bottom: 14px;
+    }
+
+    .slide-subtitle {
+      max-width: 960px;
+      color: var(--text2);
+      font-size: clamp(14px, 1.25vw, 18px);
+      line-height: 1.55;
+      margin-bottom: clamp(18px, 2.4vw, 30px);
+    }
+
+    .title-slide {
+      justify-content: center;
+      max-width: 1120px;
+      margin: 0 auto;
+      width: 100%;
+      isolation: isolate;
+    }
+
+    .title-bg-glow,
+    .title-bg-glow2 {
+      filter: blur(8px);
+      opacity: 0.85;
+    }
+
+    .title-bg-glow {
+      background: radial-gradient(circle, rgba(112, 194, 168, 0.18), transparent 68%);
+    }
+
+    .title-bg-glow2 {
+      background: radial-gradient(circle, rgba(143, 180, 255, 0.14), transparent 68%);
+    }
+
+    .title-tag {
+      background: rgba(112, 194, 168, 0.1);
+      border-color: rgba(112, 194, 168, 0.28);
+      color: var(--text2);
+      letter-spacing: 0.16em;
+      padding: 8px 16px;
+      margin-bottom: 26px;
+    }
+
+    .title-main {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(72px, 12vw, 148px);
+      line-height: 0.82;
+      letter-spacing: -0.06em;
+      background: linear-gradient(125deg, #ffffff 18%, #d9f3ea 48%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      margin-bottom: 24px;
+    }
+
+    .title-brand {
+      width: clamp(240px, 32vw, 420px);
+      height: auto;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 16px 34px rgba(0, 0, 0, 0.32));
+      opacity: 0.95;
+    }
+
+    .title-tagline {
+      color: var(--text2);
+      font-size: clamp(22px, 2.8vw, 34px);
+      font-weight: 500;
+      line-height: 1.25;
+      max-width: 780px;
+      margin-bottom: 24px;
+    }
+
+    .title-pills {
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+
+    .title-pill,
+    .arch-tag {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(209, 232, 255, 0.13);
+      color: var(--text2);
+      border-radius: 999px;
+    }
+
+    .title-pill {
+      padding: 7px 15px;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .title-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(132px, 1fr));
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .stat-card,
+    .col-panel,
+    .arch-layer,
+    .ai-card,
+    .wallet-left,
+    .benefit-panel,
+    .partner-panel,
+    .together-card {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      padding: 18px;
+      min-width: 0;
+      border-radius: 20px;
+    }
+
+    .stat-num {
+      color: var(--text);
+      font-size: clamp(30px, 3vw, 44px);
+    }
+
+    .stat-label {
+      color: var(--text3);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title-footer {
+      max-width: 880px;
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.55;
+      border-color: rgba(209, 232, 255, 0.14);
+    }
+
+    .two-col {
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .col-panel,
+    .benefit-panel,
+    .partner-panel {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+    }
+
+    .panel-header,
+    .benefit-header,
+    .partner-header {
+      color: var(--text);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      border-color: rgba(209, 232, 255, 0.12);
+      margin-bottom: 18px;
+    }
+
+    .panel-header.challenge { color: #f1ac9e; }
+    .panel-header.building,
+    .benefit-header.res,
+    .partner-header.left { color: var(--cyan); }
+    .benefit-header.biz { color: var(--amber); }
+    .partner-header.right { color: var(--purple); }
+
+    .item-row,
+    .benefit-row,
+    .partner-item {
+      gap: 14px;
+    }
+
+    .item-row {
+      padding: 14px 0;
+      border-color: rgba(209, 232, 255, 0.08);
+    }
+
+    .item-icon,
+    .ai-card-icon,
+    .benefit-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(112, 194, 168, 0.11);
+      border: 1px solid rgba(112, 194, 168, 0.22);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .item-title,
+    .ai-card-title,
+    .benefit-title {
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .item-desc,
+    .benefit-desc,
+    .partner-text,
+    .ai-step {
+      color: var(--text2);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .arch-slide {
+      gap: 10px;
+    }
+
+    .arch-layer {
+      border-radius: 20px;
+      padding: 12px 16px;
+      align-items: center;
+    }
+
+    .layer-badge {
+      background: rgba(112, 194, 168, 0.11);
+      border-color: rgba(112, 194, 168, 0.24);
+      border-radius: 16px;
+      min-width: 126px;
+      padding: 10px 12px;
+    }
+
+    .layer-num,
+    .layer-name {
+      color: var(--cyan);
+    }
+
+    .layer-num {
+      font-size: 10px;
+      margin-bottom: 4px;
+    }
+
+    .layer-name {
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .tag-row {
+      gap: 7px;
+    }
+
+    .arch-tag {
+      padding: 5px 9px;
+      font-size: 11px;
+      white-space: normal;
+    }
+
+    .arch-tag.accent {
+      background: rgba(112, 194, 168, 0.12);
+      border-color: rgba(112, 194, 168, 0.26);
+      color: #d9f3ea;
+    }
+
+    .arch-footer {
+      background: rgba(112, 194, 168, 0.09);
+      border-color: rgba(112, 194, 168, 0.23);
+      color: var(--text2);
+      border-radius: 18px;
+      padding: 11px 16px;
+      font-size: 12px;
+    }
+
+    .ai-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .ai-card {
+      padding: 22px;
+      border-radius: 24px;
+      min-height: 190px;
+    }
+
+    .ai-card:hover,
+    .arch-layer:hover,
+    .stat-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .ai-card-icon {
+      width: 38px;
+      height: 38px;
+      margin-bottom: 2px;
+    }
+
+    .ai-flow {
+      gap: 7px;
+    }
+
+    .ai-arrow {
+      color: var(--cyan);
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .wallet-grid {
+      grid-template-columns: 0.9fr 1.35fr 1.35fr;
+      gap: 22px;
+    }
+
+    .wallet-left {
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      background:
+        radial-gradient(circle at 24% 8%, rgba(112, 194, 168, 0.22), transparent 34%),
+        linear-gradient(150deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
+    }
+
+    .wallet-emblem {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border-radius: 18px;
+      border: 1px solid rgba(209, 232, 255, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+      padding: 8px;
+    }
+
+    .wallet-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .wallet-name {
+      font-size: 19px;
+      letter-spacing: 0.06em;
+    }
+
+    .wallet-sub {
+      color: var(--text3);
+      font-size: 12px;
+      margin-bottom: 22px;
+    }
+
+    .wallet-items {
+      gap: 11px;
+    }
+
+    .wallet-item {
+      color: var(--text2);
+      font-size: 13px;
+    }
+
+    .wallet-item .check {
+      background: rgba(112, 194, 168, 0.12);
+      border-color: rgba(112, 194, 168, 0.3);
+      color: var(--cyan);
+    }
+
+    .benefit-list,
+    .partner-items {
+      gap: 13px;
+    }
+
+    .partner-grid {
+      grid-template-columns: minmax(0, 1fr) 168px minmax(0, 1fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .times-sign {
+      width: 74px;
+      height: 74px;
+      align-self: center;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(209, 232, 255, 0.14);
+      background:
+        linear-gradient(135deg, rgba(112, 194, 168, 0.14), rgba(143, 180, 255, 0.13));
+      -webkit-text-fill-color: var(--text);
+      color: var(--text);
+      font-size: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .partner-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .partner-logo {
+      width: 158px;
+      height: auto;
+      opacity: 0.92;
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
+    }
+
+    .partner-brand-chip {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      white-space: nowrap;
+    }
+
+    .deal-node {
+      width: 148px;
+      min-height: 164px;
+      border-radius: 30px;
+      align-self: center;
+      justify-self: center;
+      margin-top: 28px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background:
+        radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.055) 48%, rgba(255, 255, 255, 0.035) 100%);
+      border: 1px solid rgba(209, 232, 255, 0.24);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .deal-node::before,
+    .deal-node::after {
+      content: '';
+      position: absolute;
+      inset: auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(209, 232, 255, 0.12);
+      pointer-events: none;
+    }
+
+    .deal-node::before {
+      top: -42px;
+      right: -48px;
+    }
+
+    .deal-node::after {
+      bottom: -48px;
+      left: -46px;
+    }
+
+    .deal-icon {
+      position: relative;
+      z-index: 1;
+      width: 104px;
+      height: 82px;
+      filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.28));
+    }
+
+    .deal-core {
+      position: relative;
+      z-index: 1;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text);
+      border: 1px solid rgba(112, 194, 168, 0.22);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(112, 194, 168, 0.1);
+      white-space: nowrap;
+    }
+
+    .partner-dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 7px;
+    }
+
+    .together-card {
+      margin-top: 24px;
+      background: linear-gradient(135deg, rgba(112, 194, 168, 0.12), rgba(143, 180, 255, 0.09));
+      color: var(--text2);
+      font-size: 15px;
+      line-height: 1.55;
+      border-color: rgba(112, 194, 168, 0.25);
+    }
+
+    .together-card strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 1100px) {
+      .slide-frame { padding: 30px 36px; }
+      .title-stats { grid-template-columns: repeat(2, minmax(132px, 1fr)); }
+      .ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .wallet-grid,
+      .partner-grid {
+        grid-template-columns: 1fr;
+      }
+      .times-sign {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto;
+      }
+      .deal-node {
+        width: 128px;
+        min-height: 140px;
+        margin: 4px auto 12px;
+      }
+      .partner-logo {
+        width: 132px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    /* ─── Slide data ─── */
+    const SLIDES = [
+      { id: 1,  component: 'TitleSlide' },
+      { id: 2,  component: 'ScopeSlide' },
+      { id: 3,  component: 'ArchSlide' },
+      { id: 4,  component: 'AISlide' },
+      { id: 5,  component: 'WalletSlide' },
+      { id: 6,  component: 'PartnerSlide' },
+    ];
+
+    /* ─── Slide 1: Title ─── */
+    function TitleSlide() {
+      return (
+        <div className="title-slide">
+          <div className="title-bg-glow" />
+          <div className="title-bg-glow2" />
+          <div className="title-tag">
+            <span>Client Brief</span> Confidential — Prepared by Enacreations | 2026
+          </div>
+          <img className="title-brand" src="images/uniliv-large-logo.svg" alt="Uniliv logo" />
+          <div className="title-tagline">
+            Unified Digital Management Platform<br />for Residents and Employees
+          </div>
+          <div className="title-pills">
+            {['Microservices', 'Cloud-Native', 'AI-Powered', 'Resident-First'].map(p => (
+              <span key={p} className="title-pill">{p}</span>
+            ))}
+          </div>
+
+          <div className="title-stats">
+            {[
+              { num: '10+', label: 'UES Core Modules' },
+              { num: '3',   label: 'Phased Delivery' },
+              { num: '360°',label: 'Resident Experience' },
+              { num: 'AI',  label: 'Agentic Intelligence' },
+            ].map(s => (
+              <div key={s.label} className="stat-card">
+                <div className="stat-num">{s.num}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="title-footer">
+            A collaboration between Uniliv's deep domain expertise and Enacreations' cutting-edge technology
+            to deliver a Data-Driven, Resident-First Digital Platform.
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 2: Scope ─── */
+    function ScopeSlide() {
+      const challenges = [
+        { icon: 'OPS', title: 'Fragmented Systems', desc: 'Operations teams juggling 5-8 disconnected tools: spreadsheets, WhatsApp, and manual ledgers with no single source of truth.' },
+        { icon: 'CX', title: 'Common Resident Experience', desc: 'RentOK is a shared platform used by multiple partners, limiting scope for a differentiated Uniliv experience.' },
+        { icon: 'SCL', title: 'Scaling Pain', desc: 'Every new property requires workflow re-setup, with no standardised procurement, vendor management, or unified experience software.' },
+        { icon: 'DAT', title: 'Zero Data Intelligence', desc: 'No resident behavioural data to cross-sell, upsell, predict churn, or personalise the resident journey.' },
+        { icon: 'REV', title: 'Untapped Wallet Revenue', desc: 'No digital wallet means cash handling, delayed collections, and missed ancillary revenue from laundry, food, and add-on services.' },
+      ];
+      const building = [
+        { icon: 'APP', title: 'Resident App (iOS + Android + Web)', desc: 'All-in-one resident app with digital ID, complaints, wallet, menu, and community.' },
+        { icon: 'ERP', title: 'Staff Web Portal + Desktop App', desc: 'Role-based digital workspace for all Uniliv staff personas across web, Windows, and Mac.' },
+        { icon: 'PAY', title: 'Closed-Loop Digital Wallet', desc: 'In-app wallet for rent, food, and laundry, embedded directly into the Resident App.' },
+        { icon: 'AI', title: 'Agentic AI Engine', desc: 'Behaviour analytics, churn prediction, and personalised recommendations.' },
+        { icon: 'BI', title: 'Dashboards and Reports', desc: 'Real-time dashboards and reports for owners, admins, and operators.' },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Overview</div>
+          <div className="slide-title">Our Understanding of Scope</div>
+          <div className="slide-subtitle">Uniliv Platform | 2026</div>
+          <div className="two-col" style={{flex:1}}>
+            <div className="col-panel">
+              <div className="panel-header challenge">Current Challenges</div>
+              {challenges.map((c, i) => (
+                <div key={i} className="item-row">
+                  <div className="item-icon">{c.icon}</div>
+                  <div className="item-body">
+                    <div className="item-title">{c.title}</div>
+                    <div className="item-desc">{c.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="col-panel">
+              <div className="panel-header building">What We Are Building</div>
+              {building.map((b, i) => (
+                <div key={i} className="item-row">
+                  <div className="item-icon">{b.icon}</div>
+                  <div className="item-body">
+                    <div className="item-title">{b.title}</div>
+                    <div className="item-desc">{b.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 3: Architecture ─── */
+    function ArchSlide() {
+      const layers = [
+        {
+          num: 'LAYER 1',
+          name: 'User Personas\n& Channels',
+          items: [
+            { label: 'Resident App (iOS & Android)', accent: true },
+            { label: 'Resident Web (Responsive)', accent: true },
+            { label: 'Parent Login', accent: false },
+            { label: 'Staff Web + Desktop App', accent: true },
+            { label: 'WhatsApp Bot', accent: false },
+            { label: 'Vendor Portal (Web)', accent: false },
+            { label: 'Web Bot', accent: false },
+            { label: 'Management Dashboard', accent: true },
+          ]
+        },
+        {
+          num: 'LAYER 2',
+          name: 'Experience\nLayer',
+          items: [
+            { label: 'React Native (iOS/Android)', accent: true },
+            { label: 'React PWA (Web)', accent: true },
+            { label: 'Closed-Loop Wallet UI', accent: false },
+            { label: 'Notifications Hub', accent: false },
+            { label: 'Community & Feed', accent: false },
+            { label: 'Digital ID & Curfew', accent: false },
+            { label: 'Analytics Dashboards', accent: false },
+          ]
+        },
+        {
+          num: 'LAYER 3a',
+          name: 'UES Functional\nModules',
+          items: [
+            { label: 'Property Acq.', accent: false },
+            { label: 'Projects / Capex', accent: false },
+            { label: 'Procurement & Inventory', accent: false },
+            { label: 'Kitchen Ops', accent: false },
+            { label: 'Operations & Complaints', accent: false },
+            { label: 'Finance', accent: false },
+            { label: 'Digital Wallet', accent: true },
+            { label: 'Analytics Engine', accent: true },
+            { label: 'RBAC', accent: false },
+            { label: 'Notification module', accent: false },
+          ]
+        },
+        {
+          num: 'LAYER 3b',
+          name: 'Resident Functional\nModules',
+          items: [
+            { label: 'Pre and Post onboarding', accent: false },
+            { label: 'Wallet and payments', accent: true },
+            { label: 'Community Chatters', accent: false },
+            { label: 'Food', accent: false },
+            { label: 'Notification Service', accent: false },
+            { label: 'Complaints', accent: false },
+            { label: 'Room Management', accent: false },
+          ]
+        },
+        {
+          num: 'LAYER 4',
+          name: 'Integrations &\nInfrastructure',
+          items: [
+            { label: 'AWS / GCP Multi-AZ', accent: true },
+            { label: 'PostgreSQL + Redis + Elasticsearch + MongoDB', accent: false },
+            { label: 'DR & Backup', accent: false },
+            { label: 'Audit Logs', accent: false },
+            { label: 'Google, WA, Gupshup, DigiLocker, DigiSign, Property fintech', accent: false },
+            { label: 'Payment Gateway', accent: true },
+            { label: 'Agentic AI Service — OCR, Amenities detection, Analytics etc', accent: true },
+          ]
+        },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">System Design</div>
+          <div className="slide-title">High-Level Layered Functional Architecture</div>
+          <div className="slide-subtitle">Resident App (iOS · Android · Web) | Employee Web Portal | Agentic AI | Cloud-Native Microservices</div>
+          <div className="arch-slide">
+            {layers.map((layer, i) => (
+              <div key={i} className="arch-layer">
+                <div className="layer-badge">
+                  <div className="layer-num">{layer.num}</div>
+                  <div className="layer-name" style={{whiteSpace:'pre-line'}}>{layer.name}</div>
+                </div>
+                <div className="layer-content">
+                  <div className="tag-row">
+                    {layer.items.map((item, j) => (
+                      <span key={j} className={`arch-tag${item.accent ? ' accent' : ''}`}>{item.label}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="arch-footer">
+              ↕&nbsp;&nbsp;All layers communicate via REST APIs & Kafka Event Streams &nbsp;|&nbsp; Cloud-Native · Scalable · Globally Secure
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 4: Agentic AI ─── */
+    function AISlide() {
+      const agents = [
+        {
+          icon: 'SLA',
+          title: 'Complaint Auto-Resolution Agent',
+          steps: [
+            'AI classifies complaint',
+            'Auto-routes to right staff',
+            'Monitors SLA',
+            'Escalates if breached',
+            'Suggests resolution from knowledge base',
+          ]
+        },
+        {
+          icon: 'RISK',
+          title: 'Churn Prediction Agent',
+          steps: [
+            'Monitors resident engagement signals',
+            'Flags at-risk residents',
+            'Triggers personalised retention offers',
+            'Alerts property manager',
+          ]
+        },
+        {
+          icon: 'F&B',
+          title: 'Kitchen Demand Forecasting Agent',
+          steps: [
+            'Analyses consumption patterns, events, occupancy',
+            'Auto-suggests daily production quantities',
+            'Reduces food wastage by 30%+',
+          ]
+        },
+        {
+          icon: 'PROC',
+          title: 'Procurement Optimisation Agent',
+          steps: [
+            'Monitors stock levels',
+            'Predicts depletion',
+            'Auto-raises indent',
+            'Matches best vendor via rate contract',
+            'Triggers PO approval',
+          ]
+        },
+        {
+          icon: 'PERS',
+          title: 'Resident Personalisation Agent',
+          steps: [
+            'Tracks wallet spend, app usage, meal preferences',
+            'Recommends room upgrades, add-on services',
+            'Suggests meal plan bundles — real-time',
+          ]
+        },
+        {
+          icon: 'SEC',
+          title: 'Anomaly & Fraud Detection Agent',
+          steps: [
+            'Monitors wallet transactions, login patterns, access logs',
+            'Detects suspicious activity',
+            'Auto-blocks + alerts compliance team',
+          ]
+        },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Intelligence Layer</div>
+          <div className="slide-title">Agentic AI — Intelligence Embedded in Every Module</div>
+          <div className="slide-subtitle">Platform acts proactively, not just reactively — AI agents monitor, decide, and act autonomously within defined guardrails</div>
+          <div className="ai-grid">
+            {agents.map((a, i) => (
+              <div key={i} className="ai-card">
+                <div className="ai-card-icon">{a.icon}</div>
+                <div className="ai-card-title">{a.title}</div>
+                <div className="ai-flow">
+                  {a.steps.map((step, j) => (
+                    <div key={j} className="ai-step">
+                      <span className="ai-arrow">›</span>
+                      <span>{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 5: Wallet ─── */
+    function WalletSlide() {
+      const walletItems = [
+        'Rent & Security Deposit',
+        'Daily Food & Canteen',
+        'Laundry Services',
+        'Maintenance Requests',
+        'Campus Merchandise',
+        'Guest Entry Fees',
+        'Event Bookings',
+      ];
+      const univBenefits = [
+        { icon: 'REV', title: 'Ancillary Revenue', desc: 'Wallet MDR + convenience fees on every transaction.' },
+        { icon: 'FLT', title: 'Interest-Free Float', desc: 'Wallet top-ups sit with Uniliv from Day 1: free float capital with zero interest cost.' },
+        { icon: 'FIN', title: 'Full Financial Visibility', desc: 'Real-time ledger per resident; zero revenue leakage.' },
+        { icon: 'COL', title: 'Faster Collections', desc: 'Rent auto-debit on due date; no manual follow-up.' },
+        { icon: 'DAT', title: 'Data Goldmine', desc: 'Spending patterns fuel AI recommendations and upsell.' },
+        { icon: 'OPS', title: 'Reduced Ops Cost', desc: 'Cashless operations with no manual cash handling or reconciliation.' },
+        { icon: 'CMP', title: 'Compliance Ready', desc: 'Full audit trail; compliant with RBI prepaid wallet norms.' },
+      ];
+      const resBenefits = [
+        { icon: 'ONE', title: 'One App, All Payments', desc: 'Single wallet for every service with no multiple apps or cash.' },
+        { icon: 'VIS', title: 'Full Spend Visibility', desc: 'Monthly spend reports; parents can view summary.' },
+        { icon: 'ALT', title: 'Smart Alerts', desc: 'Low balance alerts, payment confirmations, and auto receipts.' },
+        { icon: 'LOY', title: 'Loyalty & Rewards', desc: 'Earn points on wallet spend; redeem for meals or services.' },
+        { icon: 'SEC', title: 'Secure Transactions', desc: 'OTP + biometric auth on all wallet transactions.' },
+        { icon: 'REF', title: 'Instant Refunds', desc: 'Service cancellations refunded to wallet in seconds.' },
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Embedded Fintech</div>
+          <div className="slide-title">Digital Wallet — Value Proposition</div>
+          <div className="slide-subtitle">Embedded Fintech | Resident-First</div>
+          <div className="wallet-grid" style={{flex:1}}>
+            {/* Left: Wallet */}
+            <div className="wallet-left">
+              <div className="wallet-emblem">
+                <img src="images/uniliv-square-logo.png" alt="Uniliv square mark" />
+              </div>
+              <div className="wallet-name">UNILIV WALLET</div>
+              <div className="wallet-sub">Embedded inside Resident App</div>
+              <div className="wallet-items">
+                {walletItems.map((item, i) => (
+                  <div key={i} className="wallet-item">
+                    <span className="check">✓</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Center: Uniliv benefits */}
+            <div className="benefit-panel">
+              <div className="benefit-header biz">Uniliv Benefits</div>
+              <div className="benefit-list">
+                {univBenefits.map((b, i) => (
+                  <div key={i} className="benefit-row">
+                    <span className="benefit-icon">{b.icon}</span>
+                    <div className="benefit-body">
+                      <div className="benefit-title">{b.title}</div>
+                      <div className="benefit-desc">{b.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Resident benefits */}
+            <div className="benefit-panel">
+              <div className="benefit-header res">Resident Benefits</div>
+              <div className="benefit-list">
+                {resBenefits.map((b, i) => (
+                  <div key={i} className="benefit-row">
+                    <span className="benefit-icon">{b.icon}</span>
+                    <div className="benefit-body">
+                      <div className="benefit-title">{b.title}</div>
+                      <div className="benefit-desc">{b.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── Slide 6: Partnership ─── */
+    function PartnerSlide() {
+      const uniliv = [
+        'Deep domain expertise in co-living operations across India',
+        'Existing resident & property relationships across multiple cities',
+        'Business workflows, SOPs, and operational knowledge',
+        'Clear product vision, user personas, and acceptance criteria',
+        'Sales & marketing strategy for resident acquisition',
+        'Regulatory knowledge — RBI wallet, local compliance',
+        'Design thinking from real resident and staff feedback',
+      ];
+      const enac = [
+        'Full-stack development — React, React Native, Java, Python',
+        'Cloud-native microservices architecture design & build',
+        'Agentic AI and behavioural analytics integration',
+        'Data analytics',
+        'UI/UX design systems — mobile, web, responsive',
+        'Post-launch support, SLAs and platform evolution',
+        'Scalable architecture',
+      ];
+      return (
+        <div style={{display:'flex', flexDirection:'column', flex:1}}>
+          <div className="slide-label">Collaboration</div>
+          <div className="slide-title">Partnership Model — Uniliv + Enacreations</div>
+          <div className="slide-subtitle">Domain × Tech = Category Leader</div>
+          <div className="partner-grid" style={{flex:1}}>
+            <div className="partner-panel left">
+              <div className="partner-brand">
+                <img className="partner-logo" src="images/uniliv-large-logo.svg" alt="Uniliv logo" />
+                <span className="partner-brand-chip">Domain Owner</span>
+              </div>
+              <div className="partner-header left">Uniliv Brings</div>
+              <div className="partner-items">
+                {uniliv.map((item, i) => (
+                  <div key={i} className="partner-item">
+                    <div className="partner-dot cyan" />
+                    <div className="partner-text">{item}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="deal-node">
+              <svg className="deal-icon" viewBox="0 0 160 120" role="img" aria-label="Handshake partnership icon">
+                <defs>
+                  <linearGradient id="dealLeft" x1="20" y1="24" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#70c2a8" />
+                    <stop offset="1" stopColor="#b6ead9" />
+                  </linearGradient>
+                  <linearGradient id="dealRight" x1="140" y1="24" x2="62" y2="96" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#8fb4ff" />
+                    <stop offset="1" stopColor="#d1e0ff" />
+                  </linearGradient>
+                </defs>
+                <path d="M18 76L50 48" stroke="url(#dealLeft)" strokeWidth="18" strokeLinecap="round" />
+                <path d="M142 76L110 48" stroke="url(#dealRight)" strokeWidth="18" strokeLinecap="round" />
+                <path d="M53 50C62 41 74 40 84 49L111 73C118 79 118 88 112 94C106 100 97 99 91 93L75 78" fill="none" stroke="#edf7ff" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M107 51C98 42 86 41 76 50L49 74C42 80 42 89 48 95C54 101 63 100 69 94L85 79" fill="none" stroke="#d9f3ea" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M67 92L91 68" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="5" strokeLinecap="round" />
+                <circle cx="80" cy="72" r="38" fill="none" stroke="rgba(209,232,255,0.16)" strokeWidth="2" />
+              </svg>
+              <div className="deal-core">Partnership</div>
+            </div>
+
+            <div className="partner-panel right">
+              <div className="partner-brand">
+                <div className="partner-logo" style={{display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, letterSpacing:'0.14em', fontSize:'14px', color:'var(--text)'}}>
+                  ENACREATIONS
+                </div>
+                <span className="partner-brand-chip">Technology Partner</span>
+              </div>
+              <div className="partner-header right">Enacreations Delivers</div>
+              <div className="partner-items">
+                {enac.map((item, i) => (
+                  <div key={i} className="partner-item">
+                    <div className="partner-dot purple" />
+                    <div className="partner-text">{item}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="together-card">
+            <strong>Together:</strong> A Data-Driven, Resident-First Digital Platform enabling residents
+            and employees to manage and control their respective functionalities.
+          </div>
+        </div>
+      );
+    }
+
+    const COMPONENTS = { TitleSlide, ScopeSlide, ArchSlide, AISlide, WalletSlide, PartnerSlide };
+
+    /* ─── App ─── */
+    function App() {
+      const [current, setCurrent] = useState(0);
+      const total = SLIDES.length;
+
+      const prev = useCallback(() => setCurrent(c => Math.max(0, c - 1)), []);
+      const next = useCallback(() => setCurrent(c => Math.min(total - 1, c + 1)), [total]);
+
+      const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      };
+
+      useEffect(() => {
+        const handler = (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault(); next();
+          }
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault(); prev();
+          }
+          if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+          if (e.key === 'Home') setCurrent(0);
+          if (e.key === 'End')  setCurrent(total - 1);
+        };
+        window.addEventListener('keydown', handler);
+        return () => window.removeEventListener('keydown', handler);
+      }, [prev, next, total]);
+
+      const progress = ((current + 1) / total) * 100;
+      const SlideNames = [
+        'Title', 'Scope', 'Architecture', 'Agentic AI', 'Digital Wallet', 'Partnership'
+      ];
+
+      return (
+        <div className="shell">
+          {/* Progress bar */}
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progress}%` }} />
+          </div>
+
+          {/* Top bar */}
+          <div className="topbar">
+            <div className="topbar-logo">
+              <img className="topbar-logo-mark" src="images/uniliv-square-logo.png" alt="Uniliv mark" />
+              <span>UNILIV</span>
+            </div>
+            <div className="topbar-meta">{SlideNames[current]}</div>
+            <div className="topbar-actions">
+              <div className="kbd-hint">
+                <span className="kbd">←→</span> navigate &nbsp;
+                <span className="kbd">F</span> fullscreen
+              </div>
+              <button className="icon-btn" onClick={toggleFullscreen} title="Toggle Fullscreen">
+                Fullscreen
+              </button>
+            </div>
+          </div>
+
+          {/* Slide viewport */}
+          <div className="slide-viewport">
+            <div className="slide-track" style={{ transform: `translateX(-${current * 100}%)` }}>
+              {SLIDES.map((slide, i) => {
+                const Component = COMPONENTS[slide.component];
+                return (
+                  <div key={slide.id} className="slide-frame">
+                    <Component />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bottom nav */}
+          <div className="nav-bar">
+            <button className="nav-btn" onClick={prev} disabled={current === 0}>
+              ← Previous
+            </button>
+            <div className="dot-nav">
+              {SLIDES.map((_, i) => (
+                <div
+                  key={i}
+                  className={`dot${i === current ? ' active' : ''}`}
+                  onClick={() => setCurrent(i)}
+                  title={SlideNames[i]}
+                />
+              ))}
+            </div>
+            <span className="slide-counter">{current + 1} / {total}</span>
+            <button className="nav-btn primary" onClick={next} disabled={current === total - 1}>
+              Next →
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
