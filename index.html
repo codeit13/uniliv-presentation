@@ -1215,7 +1215,7 @@
 
     .tech-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       flex: initial;
     }
@@ -1561,11 +1561,11 @@
     }
 
     .wallet-emblem {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.14);
       color: var(--text);
       border-radius: 18px;
-      border: 1px solid rgba(209, 232, 255, 0.2);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+      border: 1px solid rgba(209, 232, 255, 0.28);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
       padding: 8px;
     }
 
@@ -1573,6 +1573,17 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.22));
+    }
+
+    .shell[data-theme="light"] .wallet-emblem {
+      background: rgba(16, 32, 51, 0.07);
+      border-color: rgba(16, 32, 51, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+    }
+
+    .shell[data-theme="light"] .wallet-emblem img {
+      filter: saturate(1.08) contrast(1.08) drop-shadow(0 1px 1px rgba(255, 255, 255, 0.35));
     }
 
     .wallet-name {
@@ -2316,11 +2327,11 @@
           items: [
             { label: 'Resident App (iOS & Android)', accent: true },
             { label: 'Resident Web (Responsive)', accent: true },
-            { label: 'Parent Login', accent: false },
+            { label: 'Parent Login', accent: true },
             { label: 'Staff Web + Desktop App', accent: true },
-            { label: 'WhatsApp Bot', accent: false },
-            { label: 'Vendor Portal (Web)', accent: false },
-            { label: 'Web Bot', accent: false },
+            { label: 'WhatsApp Bot', accent: true },
+            { label: 'Vendor Portal (Web)', accent: true },
+            { label: 'Web Bot', accent: true },
             { label: 'Management Dashboard', accent: true },
           ]
         },
@@ -2330,40 +2341,40 @@
           items: [
             { label: 'React Native (iOS/Android)', accent: true },
             { label: 'React PWA (Web)', accent: true },
-            { label: 'Closed-Loop Wallet UI', accent: false },
-            { label: 'Notifications Hub', accent: false },
-            { label: 'Community & Feed', accent: false },
-            { label: 'Digital ID & Curfew', accent: false },
-            { label: 'Analytics Dashboards', accent: false },
+            { label: 'Closed-Loop Wallet UI', accent: true },
+            { label: 'Notifications Hub', accent: true },
+            { label: 'Community & Feed', accent: true },
+            { label: 'Digital ID & Curfew', accent: true },
+            { label: 'Analytics Dashboards', accent: true },
           ]
         },
         {
           num: 'LAYER 3a',
           name: 'UES Functional\nModules',
           items: [
-            { label: 'Property Acq.', accent: false },
-            { label: 'Projects / Capex', accent: false },
-            { label: 'Procurement & Inventory', accent: false },
-            { label: 'Kitchen Ops', accent: false },
-            { label: 'Operations & Complaints', accent: false },
-            { label: 'Finance', accent: false },
+            { label: 'Property Acq.', accent: true },
+            { label: 'Projects / Capex', accent: true },
+            { label: 'Procurement & Inventory', accent: true },
+            { label: 'Kitchen Ops', accent: true },
+            { label: 'Operations & Complaints', accent: true },
+            { label: 'Finance', accent: true },
             { label: 'Digital Wallet', accent: true },
             { label: 'Analytics Engine', accent: true },
-            { label: 'RBAC', accent: false },
-            { label: 'Notification module', accent: false },
+            { label: 'RBAC', accent: true },
+            { label: 'Notification module', accent: true },
           ]
         },
         {
           num: 'LAYER 3b',
           name: 'Resident Functional\nModules',
           items: [
-            { label: 'Pre and Post onboarding', accent: false },
+            { label: 'Pre and Post onboarding', accent: true },
             { label: 'Wallet and payments', accent: true },
-            { label: 'Community Chatters', accent: false },
-            { label: 'Food', accent: false },
-            { label: 'Notification Service', accent: false },
-            { label: 'Complaints', accent: false },
-            { label: 'Room Management', accent: false },
+            { label: 'Community Chatters', accent: true },
+            { label: 'Food', accent: true },
+            { label: 'Notification Service', accent: true },
+            { label: 'Complaints', accent: true },
+            { label: 'Room Management', accent: true },
           ]
         },
         {
@@ -2371,10 +2382,10 @@
           name: 'Integrations &\nInfrastructure',
           items: [
             { label: 'AWS / GCP Multi-AZ', accent: true },
-            { label: 'PostgreSQL + Redis + Elasticsearch + MongoDB', accent: false },
-            { label: 'DR & Backup', accent: false },
-            { label: 'Audit Logs', accent: false },
-            { label: 'Google, WA, Gupshup, DigiLocker, DigiSign, Property fintech', accent: false },
+            { label: 'PostgreSQL + Redis + Elasticsearch + MongoDB', accent: true },
+            { label: 'DR & Backup', accent: true },
+            { label: 'Audit Logs', accent: true },
+            { label: 'Google, WA, Gupshup, DigiLocker, DigiSign, Property fintech', accent: true },
             { label: 'Payment Gateway', accent: true },
             { label: 'Agentic AI Service — OCR, Amenities detection, Analytics etc', accent: true },
           ]
@@ -2413,13 +2424,13 @@
     function TechStackSlide() {
       const stack = [
         { code: 'APP', title: 'Resident Mobile App', stack: <><strong>React Native</strong> for Android/iOS + TypeScript + NestJS Backend</> },
-        { code: 'UES', title: 'UES Admin App', stack: <><strong>React</strong> + TypeScript + Electron desktop apps for Windows/Mac/Web + NestJS Backend</> },
+        { code: 'UES', title: 'Uniliv Enterprise System (UES)', stack: <><strong>React</strong> + TypeScript + Electron desktop apps for Windows/Mac/Web + NestJS Backend</> },
         { code: 'API', title: 'Backend Module', stack: <><strong>Node.js</strong> + TypeScript + NestJS</> },
         { code: 'AI', title: 'AI Services', stack: <><strong>Python</strong> + FastAPI with YOLO, OCR, Vision and LLM models</> },
         { code: 'DB', title: 'Database', stack: <><strong>PostgreSQL</strong> as the primary relational data store</> },
         { code: 'JOB', title: 'Cache / Jobs', stack: <><strong>Redis</strong> + BullMQ for caching, queues and background workers</> },
         { code: 'S3', title: 'Storage', stack: <>S3-compatible object storage for files, media and documents</> },
-        { code: 'MSG', title: 'Notifications', stack: <>FCM + Email/SMS/WhatsApp communication channels</> },
+        { code: 'MSG', title: 'Notifications', stack: <><strong>FCM</strong> & <strong>APN</strong> for Android/ iOS push Notifications, plus Email/SMS/WhatsApp communication channels</> },
       ];
       return (
         <div style={{display:'flex', flexDirection:'column', flex:1}}>
